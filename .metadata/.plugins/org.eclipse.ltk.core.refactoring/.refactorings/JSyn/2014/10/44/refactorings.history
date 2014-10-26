@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;JSyn/src/Synth/SawFaders.Java&apos; to &apos;SawFaders.java&apos;" description="Rename resource &apos;SawFaders.Java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Synth/SawFaders.Java" name="SawFaders.java" stamp="1414300362697" updateReferences="true"/>
+</session>
