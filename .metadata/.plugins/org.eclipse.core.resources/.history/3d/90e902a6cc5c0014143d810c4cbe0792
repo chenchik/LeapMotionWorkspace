@@ -1,8 +1,23 @@
 package theramin;
 import com.leapmotion.leap.*;
 import com.leapmotion.leap.Gesture.State;
-import java.io.IOException;
+
+import javax.swing.*;
+import javax.sound.sampled.*;
+import javax.sound.midi.*;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import sun.audio.*;
+import java.io.*;
 import java.math.*;
+import javax.print.attribute.standard.Media;
+import java.io.File;
+
 //import java.util.;
 
 class LeapListener extends Listener {
@@ -38,16 +53,152 @@ class LeapListener extends Listener {
 			System.out.println("55");
 		
 		}*/
+		
+		
+		 
 		for(Hand hand : frame.hands()){
 			String handType = hand.isLeft() ? "left hand" : "right hand";
-			System.out.println(handType + " " + " hand id: " + hand.id()
+			/*System.out.println(handType + " " + " hand id: " + hand.id()
 					+ "palm position" + hand.palmPosition()
-					+ " x axis equals: " + hand.palmPosition().getX());
+					+ " x axis equals: " + hand.palmPosition().getX()
+					+ " y axis equals: " + hand.palmPosition().getY());*/
+			System.out.println(" grab strength of the hand is: " + hand.grabStrength());
+			
+			double yPosition = hand.palmPosition().getY();
 			
 			
+			GestureList gestures = frame.gestures();
+			for(int i = 0; i < gestures.count(); i++){
+				Gesture gesture = gestures.get(i);
+				
+				switch(gesture.type()){
+				case TYPE_CIRCLE:
+					CircleGesture circle = new CircleGesture(gesture);
+					System.out.println("circle is doing it thing");
+					
+					String clockwiseness;
+					if(circle.pointable().direction().angleTo(circle.normal()) <= Math.PI/4){
+						clockwiseness =  "clockwise";
+					}
+					else{
+						clockwiseness = "counter clockwise";	
+					}
+					
+					double sweptAngle = 0;
+					if(circle.state() != State.STATE_START){
+						CircleGesture previous = new CircleGesture(controller.frame(1).gesture(circle.id()));
+						sweptAngle = (circle.progress() - previous.progress()) * 2 * Math.PI;	
+						
+					}
+				}
+			}
 			
-			Vector normal = hand.palmNormal();
-			Vector direction = hand.direction();
+			if((hand.palmPosition().getY() >= 0) && (hand.palmPosition().getY() < 10)) {
+				System.out.println(" the note is C");
+			}
+			if((hand.palmPosition().getY() >= 10) && (hand.palmPosition().getY() < 20)) {
+				System.out.println(" the note is C#");
+			}
+			if((hand.palmPosition().getY() >= 20) && (hand.palmPosition().getY() < 30)) {
+				System.out.println(" the note is D");
+			}
+			if((hand.palmPosition().getY() >= 30) && (hand.palmPosition().getY() < 40)) {
+				System.out.println(" the note is D#");
+			}
+			if((hand.palmPosition().getY() >= 40) && (hand.palmPosition().getY() < 50)) {
+				System.out.println(" the note is E");
+			}
+			if((hand.palmPosition().getY() >= 50) && (hand.palmPosition().getY() < 60)) {
+				System.out.println(" the note is F");
+			}
+			if((hand.palmPosition().getY() >= 60) && (hand.palmPosition().getY() < 70)) {
+				System.out.println(" the note is F#");
+			}
+			if((hand.palmPosition().getY() >= 70) && (hand.palmPosition().getY() < 80)) {
+				System.out.println(" the note is G");
+			}
+			if((hand.palmPosition().getY() >= 80) && (hand.palmPosition().getY() < 90)) {
+				System.out.println(" the note is G#");
+			}
+			if((hand.palmPosition().getY() >= 90) && (hand.palmPosition().getY() < 100)) {
+				System.out.println(" the note is A");
+			}
+			if((hand.palmPosition().getY() >= 100) && (hand.palmPosition().getY() < 110)) {
+				System.out.println(" the note is A#");
+			}
+			if((hand.palmPosition().getY() >= 110) && (hand.palmPosition().getY() < 120)) {
+				System.out.println(" the note is B");
+			}
+			if((hand.palmPosition().getY() >= 120) && (hand.palmPosition().getY() < 130)) {
+				System.out.println(" the note is C");
+			}
+			if((hand.palmPosition().getY() >= 130) && (hand.palmPosition().getY() < 140)) {
+				System.out.println(" the note is C#");
+			}
+			if((hand.palmPosition().getY() >= 140) && (hand.palmPosition().getY() < 150)) {
+				System.out.println(" the note is D");
+			}
+			if((hand.palmPosition().getY() >= 150) && (hand.palmPosition().getY() < 160)) {
+				System.out.println(" the note is D#");
+			}
+			if((hand.palmPosition().getY() >= 160) && (hand.palmPosition().getY() < 170)) {
+				System.out.println(" the note is E");
+			}
+			if((hand.palmPosition().getY() >= 170) && (hand.palmPosition().getY() < 180)) {
+				System.out.println(" the note is F");
+			}
+			if((hand.palmPosition().getY() >= 180) && (hand.palmPosition().getY() < 190)) {
+				System.out.println(" the note is F#");
+			}
+			if((hand.palmPosition().getY() >= 190) && (hand.palmPosition().getY() < 200)) {
+				System.out.println(" the note is G");
+			}
+			if((hand.palmPosition().getY() >= 200) && (hand.palmPosition().getY() < 210)) {
+				System.out.println(" the note is G#");
+			}
+			if((hand.palmPosition().getY() >= 210) && (hand.palmPosition().getY() < 220)) {
+				System.out.println(" the note is A");
+			}
+			if((hand.palmPosition().getY() >= 220) && (hand.palmPosition().getY() < 230)) {
+				System.out.println(" the note is A#");
+			}
+			if((hand.palmPosition().getY() >= 230) && (hand.palmPosition().getY() < 240)) {
+				System.out.println(" the note is B");
+			}
+			if((hand.palmPosition().getY() >= 240) && (hand.palmPosition().getY() < 250)) {
+				System.out.println(" the note is C");
+			}
+			if((hand.palmPosition().getY() >= 250) && (hand.palmPosition().getY() < 260)) {
+				System.out.println(" the note is C#");
+			}
+			if((hand.palmPosition().getY() >= 260) && (hand.palmPosition().getY() < 270)) {
+				System.out.println(" the note is D");
+			}
+			if((hand.palmPosition().getY() >= 270) && (hand.palmPosition().getY() < 280)) {
+				System.out.println(" the note is D#");
+			}
+			if((hand.palmPosition().getY() >= 280) && (hand.palmPosition().getY() < 290)) {
+				System.out.println(" the note is F");
+			}
+			if((hand.palmPosition().getY() >= 290) && (hand.palmPosition().getY() < 300)) {
+				System.out.println(" the note is F#");
+			}
+			if((hand.palmPosition().getY() >= 300) && (hand.palmPosition().getY() < 310)) {
+				System.out.println(" the note is G");
+			}
+			if((hand.palmPosition().getY() >= 310) && (hand.palmPosition().getY() < 320)) {
+				System.out.println(" the note is G#");
+			}
+			
+			
+				
+			
+		
+			
+			//if(hand.palmPosition().equals(50,50,50)){
+			//}
+			
+			
 			
 		}
 		
@@ -70,6 +221,8 @@ public class Theramin {
 		}
 		
 		controller.removeListener(listener);
+		
+		
 		
 	}
 
